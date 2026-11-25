@@ -16,9 +16,12 @@ const description = `${project.summary} ${project.status}.`;
 const projectIndex = projects.findIndex((item) => item.slug === project.slug);
 const previousProject = projects[(projectIndex - 1 + projects.length) % projects.length];
 const nextProject = projects[(projectIndex + 1) % projects.length];
+const contributionRows: [string, string][] = project.contribution
+  ? [['My contribution', project.contribution]]
+  : [];
 const detailRows: [string, string][] = [
   ['Problem', project.problem],
-  ['My contribution', project.contribution],
+  ...contributionRows,
   ['Architecture', project.architecture ?? ''],
   ['Key decisions', project.decisions ?? ''],
   ['Privacy and security', project.security ?? ''],

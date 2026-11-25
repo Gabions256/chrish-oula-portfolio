@@ -153,6 +153,24 @@ test('project stories use authentic visuals and contain no editorial placeholder
   }
 });
 
+test('unconfirmed product contribution and technology claims are omitted', async ({ page }) => {
+  for (const route of [
+    '/work/poultrix-hub',
+    '/work/sente',
+    '/work/fastworkflow-vpn',
+    '/work/gab-pdf-editor',
+  ]) {
+    await page.goto(route);
+    await expect(page.getByRole('heading', { name: 'My contribution', exact: true }))
+      .toHaveCount(0);
+    await expect(page.locator('.case-meta-row').getByText('Technology', { exact: true }))
+      .toHaveCount(0);
+  }
+
+  await page.goto('/');
+  await expect(page.locator('body')).not.toContainText('row-level security');
+});
+
 test('case studies expose a contents list, reading progress, and working project navigation', async ({
   page,
 }) => {

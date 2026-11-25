@@ -22,7 +22,7 @@ export interface Project {
   workflow?: { title: string; detail: string }[];
   overview: string;
   problem: string;
-  contribution: string;
+  contribution?: string;
   architecture?: string;
   platforms: string[];
   stack: string[];
@@ -119,11 +119,11 @@ export const projects = [
     category: 'Agricultural technology',
     status: 'Released · Android + web',
     summary:
-      'I work on a farming platform that brings flock records, practical learning, and a marketplace together.',
+      'Poultrix Hub brings poultry farm records, practical learning, and a marketplace together.',
     problemSummary:
       'Help poultry farmers keep useful records and find practical tools in one place.',
     contributionSummary:
-      'I build mobile workflows and contribute to backend access controls and storage.',
+      'Farm records, learning, and marketplace features across a released product.',
     outcomeSummary:
       'Live on the web and Google Play, with farm, learning, and marketplace features.',
     visual: 'gallery',
@@ -144,23 +144,13 @@ export const projects = [
       },
     ],
     overview:
-      'Poultrix Hub is a live web and Android product for poultry farmers. I contribute to its mobile and backend work across farm records, learning, marketplace, and vendor workflows.',
+      'Poultrix Hub is a released web and Android product for poultry farmers, with farm records, learning, marketplace, and vendor workflows.',
     problem:
       'Farmers can end up tracking flocks, feed, health, and sales in notebooks, phone notes, and chat groups. The product brings those records and related learning and supply discovery into one companion.',
-    contribution:
-      'My work spans Flutter and Dart mobile workflows, backend integration, data-access controls, and storage. The GAB product case study describes a React and TypeScript web experience alongside the Android app.',
-    architecture:
-      'The web and Android products share a Supabase and PostgreSQL-backed service layer for sign-in, sync, storage, and background functions. Farm records remain account-scoped while public learning and product information can be explored without signing in.',
     platforms: ['Android', 'Web'],
-    stack: ['Flutter', 'Dart', 'React', 'TypeScript', 'Supabase', 'PostgreSQL'],
+    stack: [],
     decisions:
-      'I keep day-to-day farm records close to the workflow and separate vendor tools from farmers’ private records. The shared backend lets a farmer continue between phone and browser.',
-    security:
-      'The product uses authentication and PostgreSQL row-level security for private records. Vendor onboarding and role-specific tools are handled separately from the farmer experience.',
-    quality:
-      'Automated tests are part of the mobile codebase, and I use them while building and refining its workflows.',
-    challenges:
-      'The product needs to serve both quick daily entry and longer-term farm decisions. I learned to keep the everyday record flow direct while making reports, learning, and marketplace tools available when they are needed.',
+      'The product combines farm records with learning, marketplace, and vendor workflows.',
     outcomes:
       'Poultrix Hub is live at poultrixhub.com and on Google Play. Its public product pages describe farm records, learning, marketplace, subscriptions, and vendor workflows.',
     statusDetail: 'Released web platform and Android app.',
@@ -183,11 +173,11 @@ export const projects = [
     category: 'Small-business finance',
     status: 'Released · Windows + Android',
     summary:
-      'I work on Sente, an offline-first money tracker that turns mobile money messages into useful, reviewable records.',
+      'Sente is an offline-first money tracker that turns approved Mobile Money messages into reviewable records.',
     problemSummary:
       'Small businesses need a clearer picture of payments, invoices, and day-to-day cash flow.',
     contributionSummary:
-      'I contribute to product workflows for recording money and matching payments.',
+      'Offline records, payment matching, invoices, and cash-flow forecasting.',
     outcomeSummary:
       'Available as a Windows download and an Android app on Google Play.',
     visual: 'workflow',
@@ -215,17 +205,15 @@ export const projects = [
       { title: 'Plan ahead', detail: 'Invoices and cash flow' },
     ],
     overview:
-      'Sente is a money tracker for small businesses in Uganda. I contribute to its product development across Windows and Android workflows for recording payments, keeping books, and following cash flow.',
+      'Sente is an offline-first money tracker for small businesses, available for Windows and Android, with workflows for recording payments, keeping books, and following cash flow.',
     problem:
       'Owners often need to reconcile cash, Mobile Money, invoices, and customer balances without a full finance system. Sente brings those everyday tasks into one place.',
-    contribution:
-      'I work on the product experience for recording money, matching payments, and preparing invoices and reminders. The public product pages describe these features at a product level.',
     architecture:
       'The Windows edition stores business records in a local file and works offline. The Android listing says records stay on the phone. On Android, supported Mobile Money messages are read with permission and reviewed before they become records.',
     platforms: ['Windows', 'Android'],
     stack: [],
     decisions:
-      'I keep imported payment messages reviewable before saving. Invoices and reminders open in WhatsApp or SMS for the user to send, rather than sending automatically.',
+      'Imported payment messages are reviewable before saving. Invoices and reminders open in WhatsApp or SMS for the user to send, rather than being sent automatically.',
     security:
       'Sente’s privacy policy says business records stay on the user’s device. Optional online features are off until the user chooses them.',
     quality:
@@ -257,13 +245,13 @@ export const projects = [
     category: 'Android networking',
     status: 'Released · Android',
     summary:
-      'I built account and subscription workflows for an Android privacy app, and helped prepare its releases while networking work continues.',
+      'Its Google Play listing presents FastWorkFlow VPN as an Android privacy app with VPN, private browsing, and tracker-limiting features.',
     problemSummary:
       'People often switch between separate apps for a VPN, private browsing, and tracker controls.',
     contributionSummary:
-      'I implemented account, authentication, and subscription flows and contributed to Android testing.',
+      'VPN, browser, and tracker-limiting features described in the Android listing.',
     outcomeSummary:
-      'The Android app is live on Google Play; its networking capabilities continue to evolve.',
+      'Released for Android; the public listing describes its advertised features.',
     visual: 'gallery',
     visualCaption: 'Approved product artwork and Google Play listing imagery.',
     cardImage: {
@@ -282,24 +270,14 @@ export const projects = [
       },
     ],
     overview:
-      'FastWorkFlow VPN brings a VPN connection, a built-in private browser, and tracker limiting into one Android product. I worked on account and subscription flows and contributed to Android testing and release preparation.',
+      'FastWorkFlow VPN is an Android product with VPN, private browsing, and tracker-limiting features described in its Google Play listing.',
     problem:
       'A privacy workflow can become fragmented when a user needs separate tools for a connection, browsing, and tracker controls.',
-    contribution:
-      'I implemented account, authentication, and subscription workflows and contributed to Android testing and release preparation. I continue to develop the networking experience alongside the live Android app.',
-    architecture:
-      'The app is built with Flutter, Kotlin-based Android VPN integration, and Supabase-backed account workflows. I continue to work on the networking integration as the product evolves.',
     platforms: ['Android'],
-    stack: ['Flutter', 'Kotlin', 'Supabase'],
-    decisions:
-      'I separated account and subscription flows from connection controls and keep privacy information accessible in the app.',
-    quality:
-      'I contributed to Android testing and release preparation. The product listing describes additional server locations and premium features as ongoing work.',
-    challenges:
-      'The Android app is live while its networking experience continues to evolve. I keep account, subscription, and connection work distinct as those capabilities develop.',
+    stack: [],
     outcomes:
       'The Android app is live on Google Play, with VPN, browser, and tracker-limiting features described in the listing. Server coverage and premium options continue to evolve.',
-    statusDetail: 'Android app available on Google Play; product capabilities continue to evolve.',
+    statusDetail: 'Android app available on Google Play.',
     links: [
       {
         label: 'Google Play',
@@ -314,11 +292,11 @@ export const projects = [
     category: 'Document software',
     status: 'Internal testing',
     summary:
-      'I’m working on a mobile document workspace for everyday PDF tasks.',
+      'GAB Office is an Android document workspace in internal testing.',
     problemSummary:
       'Make common document tasks easier to find and start from a phone.',
     contributionSummary:
-      'I contribute to development and integration, and test the app as it evolves.',
+      'An internal test build with a mobile document workspace.',
     outcomeSummary:
       'An internal test build with a focused document-workspace home screen.',
     visual: 'gallery',
@@ -339,21 +317,15 @@ export const projects = [
       },
     ],
     overview:
-      'GAB Office is a document app in internal testing. I contribute to its development and integration while the product takes shape.',
+      'GAB Office is an Android document app in internal testing.',
     problem:
       'People often need several small tools to open, create, scan, and organize documents on a phone. GAB Office groups these actions in one mobile workspace.',
-    contribution:
-      'My work includes application development, integration, and testing as features are added.',
     platforms: ['Android'],
     stack: [],
     decisions:
       'The current home screen keeps document actions such as Open PDF, Scan, Sign, Merge, and Compress together for quick access.',
-    quality:
-      'I test the application during internal development as the document workflows take shape.',
-    challenges:
-      'Document workflows need to feel direct on a small screen. I focus on making the main actions easy to find without presenting unfinished tools as complete.',
     outcomes:
-      'The internal build presents a mobile workspace for common PDF and document tasks.',
+      'The internal build shows a mobile home screen that groups common PDF and document actions.',
     statusDetail: 'Internal testing; not presented as a released product.',
     links: [],
     featured: false,
@@ -417,13 +389,6 @@ export const engineeringEvidence = [
       'Poultrix Hub is live on the web and Android; Sente is available for Windows and Android.',
     source: 'Poultrix Hub',
     href: 'https://poultrixhub.com',
-  },
-  {
-    title: 'Database access control',
-    description:
-      'My product work includes authentication, PostgreSQL row-level security, and scoped access to private records.',
-    source: 'Poultrix Hub',
-    href: 'https://www.gabdigitalsystem.com/work/poultrix-hub',
   },
   {
     title: 'Open-source releases',
