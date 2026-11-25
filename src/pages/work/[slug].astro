@@ -13,6 +13,9 @@ export function getStaticPaths() {
 const { project } = Astro.props;
 const title = `${project.name} — Chrish Oula`;
 const description = `${project.summary} ${project.status}.`;
+const projectIndex = projects.findIndex((item) => item.slug === project.slug);
+const previousProject = projects[(projectIndex - 1 + projects.length) % projects.length];
+const nextProject = projects[(projectIndex + 1) % projects.length];
 const detailRows: [string, string][] = [
   ['Problem', project.problem],
   ['My contribution', project.contribution],
@@ -28,6 +31,7 @@ const visibleDetailRows = detailRows.filter(([, content]) => content.length > 0)
 
 <SiteLayout title={title} description={description}>
   <main id="main" class="case-study page-shell">
+    <div class="reading-progress" aria-hidden="true" data-reading-progress></div>
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="/#work">Selected work</a><span aria-hidden="true">/</span><span aria-current="page">{project.name}</span>
     </nav>
@@ -45,9 +49,15 @@ const visibleDetailRows = detailRows.filter(([, content]) => content.length > 0)
       </div>
     </header>
 
+    <nav class="case-toc" aria-label="On this page">
+      <a href="#overview">Overview</a>
+      <a href="#details">The work</a>
+      {project.links.length > 0 && <a href="#links">Project links</a>}
+    </nav>
+
     <ProjectVisual project={project} mode="case" />
 
-    <section class="case-overview" aria-labelledby="overview-title">
+    <section class="case-overview" id="overview" aria-labelledby="overview-title">
       <p class="eyebrow">Overview</p>
       <h2 id="overview-title">{project.overview}</h2>
       <div class="case-meta-row">
@@ -62,7 +72,7 @@ const visibleDetailRows = detailRows.filter(([, content]) => content.length > 0)
       </div>
     </section>
 
-    <section class="case-details" aria-labelledby="details-title">
+    <section class="case-details" id="details" aria-labelledby="details-title">
       <div class="case-details-heading">
       <p class="eyebrow">The work</p>
       <h2 id="details-title">Thoughtful decisions.<br /><em>Useful outcomes.</em></h2>
@@ -79,7 +89,7 @@ const visibleDetailRows = detailRows.filter(([, content]) => content.length > 0)
     </section>
 
     {project.links.length > 0 && (
-      <section class="case-links" aria-labelledby="links-title">
+      <section class="case-links" id="links" aria-labelledby="links-title">
         <div>
           <p class="eyebrow">Explore further</p>
           <h2 id="links-title">Project links</h2>
@@ -95,6 +105,17 @@ const visibleDetailRows = detailRows.filter(([, content]) => content.length > 0)
         </ul>
       </section>
     )}
+
+    <nav class="case-project-nav" aria-label="Previous and next projects">
+      <a href={`/work/${previousProject.slug}`}>
+        <span><span aria-hidden="true">←</span> Previous project</span>
+        <strong>{previousProject.name}</strong>
+      </a>
+      <a href={`/work/${nextProject.slug}`}>
+        <span>Next project <span aria-hidden="true">→</span></span>
+        <strong>{nextProject.name}</strong>
+      </a>
+    </nav>
 
     <div class="case-next">
       <a class="text-link" href="/#work"><span aria-hidden="true">←</span> Back to selected work</a>

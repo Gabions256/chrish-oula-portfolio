@@ -5,8 +5,25 @@ import { engineeringEvidence, projects } from '../data/projects';
 
 const featuredProjects = projects.filter((project) => project.featured);
 const otherProjects = projects.filter((project) => !project.featured);
+const flagshipProject = featuredProjects.find((project) => project.slug === 'tracemark');
+const releasedProjects = featuredProjects.filter((project) => project.slug !== 'tracemark');
 const description =
   'Chrish Oula is a Software Engineer in Kampala, Uganda, building mobile and web products, business software, and open-source developer tools.';
+const toolkits = [
+  { title: 'Languages', items: ['Rust', 'Dart', 'TypeScript', 'JavaScript', 'SQL'], icon: 'code' },
+  { title: 'Web & mobile', items: ['React', 'Flutter', 'Vite'], icon: 'devices' },
+  {
+    title: 'Backend & data',
+    items: ['Supabase', 'PostgreSQL', 'Neon', 'REST APIs', 'Row-level security'],
+    icon: 'database',
+  },
+  {
+    title: 'Engineering workflow',
+    items: ['Git', 'GitHub', 'CI/CD', 'Automated testing', 'Debugging', 'MCP'],
+    icon: 'branch',
+  },
+  { title: 'Deployment', items: ['Vercel', 'Cloudflare'], icon: 'cloud' },
+];
 ---
 
 <SiteLayout
@@ -14,7 +31,7 @@ const description =
   description={description}
 >
   <main id="main">
-    <section class="hero page-shell" aria-labelledby="hero-title">
+    <section class="hero page-shell" id="top" aria-labelledby="hero-title" data-motion>
       <div class="hero-copy">
         <p class="eyebrow hero-location">Software Engineer <span aria-hidden="true">·</span> Kampala, Uganda</p>
         <h1 id="hero-title">Chrish Oula<span class="hero-role">Software Engineer</span></h1>
@@ -76,13 +93,30 @@ const description =
           My work spans local-first developer tools, agricultural software, and practical finance products.
         </p>
       </div>
-      <div class="project-grid">
-        {featuredProjects.map((project, index) => <ProjectCard project={project} index={index} />)}
+      <div class="project-group" data-motion>
+        <div class="project-group-heading">
+          <p class="eyebrow">Flagship · open source</p>
+          <h3>Developer infrastructure</h3>
+          <p>Local-first code intelligence, with the interface and architecture in view.</p>
+        </div>
+        {flagshipProject && <ProjectCard project={flagshipProject} index={0} />}
+      </div>
+      <div class="project-group released-group" data-motion>
+        <div class="project-group-heading">
+          <p class="eyebrow">Released products</p>
+          <h3>Across platforms</h3>
+          <p>Released Android, web, and Windows products with verified public listings.</p>
+        </div>
+        <div class="release-grid">
+          {releasedProjects.map((project, index) => (
+            <ProjectCard project={project} index={index + 1} />
+          ))}
+        </div>
       </div>
       <div class="additional-projects">
         <div>
-          <p class="eyebrow">More work</p>
-          <p class="additional-note">A released Android product, an internal test build, and a private prototype.</p>
+          <p class="eyebrow">Additional work</p>
+          <p class="additional-note">An internal test build and a separately classified prototype.</p>
         </div>
         <div class="additional-list">
           {otherProjects.map((project, index) => (
@@ -116,64 +150,21 @@ const description =
       </div>
     </section>
 
-    <section class="about-section section-space" id="about" aria-labelledby="about-title">
+    <section class="about-section section-space" id="about" aria-labelledby="about-title" data-motion>
       <div class="page-shell about-grid">
         <div class="about-title">
-          <p class="eyebrow">Engineering approach <span>03 / 04</span></p>
-          <h2 id="about-title">Build with care.<br /><em>Ship with purpose.</em></h2>
+          <p class="eyebrow">About & experience <span>03 / 04</span></p>
+          <h2 id="about-title">A little about<br /><em>how I work.</em></h2>
         </div>
         <div class="about-copy">
           <p class="about-lead">
-            I build web and mobile applications, SaaS products and developer tools. My work spans
-            frontend development, backend integration, relational databases, authentication,
-            automated testing and deployment.
+            I’m a Software Engineer at GAB Software Company Limited, based in Kampala, Uganda. I
+            build across mobile and web products, business software, and developer tools.
           </p>
           <p>
-            At GAB Software Company Limited, I work on software that addresses real business and
-            operational needs. I’m particularly interested in reliable product engineering, secure
-            data access, local-first developer tooling and software that is practical to use in the
-            real world.
+            I’m interested in thoughtful product engineering, clear architecture, and practical
+            software that helps people get useful work done.
           </p>
-          <div class="principles">
-            <div><span>01</span><p>Useful software, clear architecture, and maintainable documentation.</p></div>
-            <div><span>02</span><p>Authentication and data security are core engineering concerns.</p></div>
-            <div><span>03</span><p>Changes should be validated through reproducible checks.</p></div>
-          </div>
-          <figure class="approach-visual">
-            <div class="visual-caption"><span>ENGINEERING APPROACH</span><span>CONCEPTUAL MODEL</span></div>
-            <svg class="system-visual" viewBox="0 0 560 460" fill="none" aria-hidden="true">
-              <path class="visual-path" d="M95 121 254 205M254 205 444 116M254 205 148 350M254 205l203 147" />
-              <path class="visual-path visual-path-secondary" d="M95 121h345M148 350h309M95 121 148 350M444 116l13 236" />
-              <circle class="visual-orbit" cx="280" cy="229" r="179" />
-              <circle class="visual-orbit visual-orbit-secondary" cx="280" cy="229" r="125" />
-              <g class="visual-node visual-node-main">
-                <circle cx="254" cy="205" r="39" />
-                <text x="254" y="210" text-anchor="middle">CORE</text>
-              </g>
-              <g class="visual-node">
-                <circle cx="95" cy="121" r="31" />
-                <text x="95" y="125" text-anchor="middle">UI</text>
-              </g>
-              <g class="visual-node">
-                <circle cx="444" cy="116" r="31" />
-                <text x="444" y="120" text-anchor="middle">API</text>
-              </g>
-              <g class="visual-node">
-                <circle cx="148" cy="350" r="31" />
-                <text x="148" y="354" text-anchor="middle">DATA</text>
-              </g>
-              <g class="visual-node">
-                <circle cx="457" cy="352" r="31" />
-                <text x="457" y="356" text-anchor="middle">TOOLS</text>
-              </g>
-              <circle class="visual-point" cx="353" cy="275" r="4" />
-              <circle class="visual-point visual-point-small" cx="204" cy="95" r="3" />
-              <circle class="visual-point visual-point-small" cx="379" cy="382" r="3" />
-            </svg>
-            <figcaption class="visual-foot">
-              <span>PRODUCT THINKING</span><span>ENGINEERING DISCIPLINE</span>
-            </figcaption>
-          </figure>
         </div>
       </div>
     </section>
@@ -187,11 +178,22 @@ const description =
         <p class="section-note">Tools I use to build from the interface through to data and delivery.</p>
       </div>
       <div class="toolkit-grid">
-        <div><span class="toolkit-index">01</span><h3>Languages</h3><p>Rust · Dart · TypeScript · JavaScript · SQL</p></div>
-        <div><span class="toolkit-index">02</span><h3>Web & mobile</h3><p>React · Flutter · Vite</p></div>
-        <div><span class="toolkit-index">03</span><h3>Backend & data</h3><p>Supabase · PostgreSQL · Neon · REST APIs · Row-level security</p></div>
-        <div><span class="toolkit-index">04</span><h3>Engineering workflow</h3><p>Git · GitHub · CI/CD · Automated testing · Debugging · MCP</p></div>
-        <div><span class="toolkit-index">05</span><h3>Deployment</h3><p>Vercel · Cloudflare</p></div>
+        {toolkits.map((group, index) => (
+          <div class="toolkit-card">
+            <span class="toolkit-index">{String(index + 1).padStart(2, '0')}</span>
+            <svg class="toolkit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              {group.icon === 'code' && <path d="m8 7-5 5 5 5m8-10 5 5-5 5m-2-13-4 16" />}
+              {group.icon === 'devices' && <path d="M3 5h12v10H3zM7 19h4m-2-4v4m9-8h4v8h-4z" />}
+              {group.icon === 'database' && <path d="M4 5c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Zm0 0v7c0 1.1 3.6 2 8 2m8-9v4m-16-1c0 1.1 3.6 2 8 2m3 2-2 2 2 2m5-4-2 2 2 2" />}
+              {group.icon === 'branch' && <path d="M6 4v11m0-7h8a4 4 0 0 1 4 4v8m-12-5a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-14a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm12 13a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />}
+              {group.icon === 'cloud' && <path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Zm5-8v8m-3-3 3 3 3-3" />}
+            </svg>
+            <h3>{group.title}</h3>
+            <ul aria-label={`${group.title} technologies`}>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
 

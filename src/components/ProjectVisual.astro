@@ -32,6 +32,24 @@ const images = mode === 'case' ? project.visualImages : undefined;
     </div>
   )}
 
+  {images && images.length > 0 && (
+    <div class="project-visual-gallery" aria-label={`${project.name} product images`}>
+      {images.map((image) => (
+        <div class="project-visual-image">
+          <img
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            decoding="async"
+          />
+          {image.caption && <p>{image.caption}</p>}
+        </div>
+      ))}
+    </div>
+  )}
+
   {project.visual === 'architecture' && mode === 'case' && (
     <>
       <div class="project-visual-label">
@@ -63,7 +81,7 @@ const images = mode === 'case' ? project.visualImages : undefined;
     </>
   )}
 
-  {project.visual === 'workflow' && project.workflow && (
+  {mode === 'case' && project.visual === 'workflow' && project.workflow && (
     <ol class="workflow-flow" aria-label={`${project.name} workflow`}>
       {project.workflow.map((step, index) => (
         <li>
@@ -73,24 +91,6 @@ const images = mode === 'case' ? project.visualImages : undefined;
         </li>
       ))}
     </ol>
-  )}
-
-  {images && images.length > 0 && (
-    <div class="project-visual-gallery" aria-label={`${project.name} product images`}>
-      {images.map((image) => (
-        <div class="project-visual-image">
-          <img
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            loading="lazy"
-            decoding="async"
-          />
-          {image.caption && <p>{image.caption}</p>}
-        </div>
-      ))}
-    </div>
   )}
 
   <figcaption>{project.visualCaption}</figcaption>

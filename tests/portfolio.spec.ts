@@ -85,12 +85,56 @@ test('featured project cards navigate to their case studies', async ({ page }) =
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Tracemark');
 });
 
+test('sticky navigation tracks the active homepage section', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await expect(page.locator('[data-site-header]')).toHaveCSS('position', 'sticky');
+  await page.locator('#about').scrollIntoViewIfNeeded();
+  await expect(page.locator('[data-nav-section="about"]')).toHaveAttribute(
+    'aria-current',
+    'location',
+  );
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  await expect(page.locator('[data-nav-section="contact"]')).toHaveAttribute(
+    'aria-current',
+    'location',
+  );
+});
+
+test('mobile navigation opens, closes with Escape, and returns focus', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const toggle = page.locator('[data-menu-toggle]');
+  await expect(toggle).toBeVisible();
+  await expect(toggle).toHaveAttribute('aria-label', 'Open navigation');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(toggle).toHaveAttribute('aria-label', 'Close navigation');
+  await expect(page.locator('[data-nav-section="top"]')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).toBeFocused();
+
+  await toggle.click();
+  await page.locator('[data-nav-section="work"]').click();
+  await expect(page).toHaveURL(/#work$/);
+  await expect(page.locator('#work')).toBeFocused();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+});
+
 test('project stories use authentic visuals and contain no editorial placeholders', async ({ page }) => {
   await page.goto('/work/tracemark');
   await expect(page.locator('.architecture-flow li')).toHaveCount(4);
   await expect(page.locator('.project-visual-gallery img')).toHaveCount(2);
   await expect(page.locator('.project-visual-gallery img').nth(1))
     .toHaveAttribute('alt', /redacted/);
+  await page.goto('/work/sente');
+  await expect(page.locator('.project-visual-gallery img')).toHaveAttribute(
+    'alt',
+    /redacted/,
+  );
+  await expect(page.locator('.workflow-flow li')).toHaveCount(4);
 
   for (const route of caseStudyRoutes) {
     await page.goto(route);
@@ -109,6 +153,19 @@ test('project stories use authentic visuals and contain no editorial placeholder
   }
 });
 
+test('case studies expose a contents list, reading progress, and working project navigation', async ({
+  page,
+}) => {
+  await page.goto('/work/tracemark');
+  await expect(page.getByRole('navigation', { name: 'On this page' })).toBeVisible();
+  await expect(page.locator('[data-reading-progress]')).toBeAttached();
+  await expect(page.locator('.case-project-nav')).toBeVisible();
+  await expect(page.locator('.case-hero')).toHaveCSS('view-transition-name', 'page-hero');
+  await page.getByRole('link', { name: /Next project Poultrix Hub/ }).click();
+  await expect(page).toHaveURL(/\/work\/poultrix-hub$/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Poultrix Hub');
+});
+
 test('keyboard navigation exposes the skip link and visible focus', async ({ page }) => {
   await page.goto('/');
   await page.keyboard.press('Tab');
@@ -124,6 +181,7 @@ test('reduced-motion preference disables smooth scrolling and transitions', asyn
   const styles = await page.evaluate(() => ({
     scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
     transitionDuration: getComputedStyle(document.querySelector('.button')!).transitionDuration,
+    animationDuration: getComputedStyle(document.querySelector('.hero-copy')!).animationDuration,
   }));
   expect(styles.scrollBehavior).toBe('auto');
   const duration = styles.transitionDuration.split(',')[0].trim();
@@ -131,6 +189,10 @@ test('reduced-motion preference disables smooth scrolling and transitions', asyn
     ? Number.parseFloat(duration) / 1000
     : Number.parseFloat(duration);
   expect(seconds).toBeLessThanOrEqual(0.00001);
+  const animationSeconds = styles.animationDuration.endsWith('ms')
+    ? Number.parseFloat(styles.animationDuration) / 1000
+    : Number.parseFloat(styles.animationDuration);
+  expect(animationSeconds).toBeLessThanOrEqual(0.00001);
 });
 
 test('all project case studies render', async ({ page }) => {
@@ -171,6 +233,11 @@ test('internal links and local image assets resolve on every page', async ({ pag
     );
     paths.forEach((path) => internalPaths.add(path));
 
+    const imagePaths = await page.locator('img[src^="/"]').evaluateAll((images) =>
+      images.map((image) => new URL((image as HTMLImageElement).src).pathname),
+    );
+    imagePaths.forEach((path) => internalPaths.add(path));
+
     const invalidExternalLinks = await page.locator('a[href^="http"]').evaluateAll((anchors) =>
       anchors
         .filter((anchor) => {
@@ -184,15 +251,6 @@ test('internal links and local image assets resolve on every page', async ({ pag
     );
     expect(invalidExternalLinks, `unsafe external links on ${route}`).toEqual([]);
 
-    const missingImages = await page.locator('img[src^="/"]').evaluateAll((images) =>
-      images
-        .filter((image) => {
-          const element = image as HTMLImageElement;
-          return !element.complete || element.naturalWidth === 0;
-        })
-        .map((image) => (image as HTMLImageElement).src),
-    );
-    expect(missingImages, `missing images on ${route}`).toEqual([]);
   }
 
   for (const path of internalPaths) {

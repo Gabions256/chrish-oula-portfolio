@@ -59,7 +59,7 @@ export const projects = [
       'Released as v0.5.0 with CLI, desktop, pull-request, and MCP interfaces.',
     visual: 'architecture',
     visualCaption:
-      'A local Rust and Tree-sitter pipeline with a SQLite index and several developer interfaces.',
+      'A local Rust and Tree-sitter pipeline with a SQLite index and several developer interfaces. Scan counts are specific to the redacted example.',
     cardImage: tracemarkCover,
     visualImages: [
       {
@@ -129,10 +129,10 @@ export const projects = [
     visual: 'gallery',
     visualCaption: 'A real view of the public Poultrix Hub website.',
     cardImage: {
-      src: '/projects/poultrix-hub-website.webp',
-      alt: 'Poultrix Hub public farming platform website',
-      width: 1607,
-      height: 817,
+      src: '/projects/poultrix-hub-cover.webp',
+      alt: 'Poultrix Hub editorial project cover',
+      width: 1600,
+      height: 1000,
     },
     visualImages: [
       {
@@ -192,7 +192,22 @@ export const projects = [
       'Available as a Windows download and an Android app on Google Play.',
     visual: 'workflow',
     visualCaption:
-      'A compact product workflow based on Sente’s published Windows and Android descriptions.',
+      'The official Windows product page with transaction-like demo records obscured.',
+    cardImage: {
+      src: '/projects/sente-cover-redacted.webp',
+      alt: 'Sente project cover with transaction-like demo records redacted',
+      width: 1600,
+      height: 1000,
+    },
+    visualImages: [
+      {
+        src: '/projects/sente-windows-product-page-redacted.webp',
+        alt: 'Sente Windows product page with its embedded transaction-like demo records redacted',
+        width: 1144,
+        height: 846,
+        caption: 'Official Windows product page; embedded demo records are redacted.',
+      },
+    ],
     workflow: [
       { title: 'Read messages', detail: 'Supported Mobile Money texts' },
       { title: 'Review entries', detail: 'Check before saving' },
@@ -250,7 +265,13 @@ export const projects = [
     outcomeSummary:
       'The Android app is live on Google Play; its networking capabilities continue to evolve.',
     visual: 'gallery',
-    visualCaption: 'FastWorkFlow VPN product artwork from its Google Play listing.',
+    visualCaption: 'Approved product artwork and Google Play listing imagery.',
+    cardImage: {
+      src: '/projects/fastworkflow-vpn-cover.webp',
+      alt: 'FastWorkFlow VPN Android product cover',
+      width: 1600,
+      height: 1000,
+    },
     visualImages: [
       {
         src: '/projects/fastworkflow-vpn-product-card.webp',
@@ -285,7 +306,7 @@ export const projects = [
         href: 'https://play.google.com/store/apps/details?id=com.fastworkflow.fastworkflow_vpn',
       },
     ],
-    featured: false,
+    featured: true,
   },
   {
     slug: 'gab-pdf-editor',
@@ -302,6 +323,12 @@ export const projects = [
       'An internal test build with a focused document-workspace home screen.',
     visual: 'gallery',
     visualCaption: 'Current GAB Office home screen from the internal test build.',
+    cardImage: {
+      src: '/projects/gab-office-cover.webp',
+      alt: 'GAB Office internal-testing project cover',
+      width: 1600,
+      height: 1000,
+    },
     visualImages: [
       {
         src: '/projects/gab-office-app-home.webp',

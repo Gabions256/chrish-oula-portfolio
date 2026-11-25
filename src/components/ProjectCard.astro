@@ -11,8 +11,15 @@ const { project, index } = Astro.props;
 const number = String(index + 1).padStart(2, '0');
 ---
 
-<article class:list={['project-card', project.featured && 'project-card-featured']}>
-  {project.featured && <ProjectVisual project={project} mode="card" />}
+<article
+  class:list={[
+    'project-card',
+    project.featured && 'project-card-featured',
+    project.slug === 'tracemark' && 'project-card-spotlight',
+  ]}
+  data-motion
+>
+  {(project.featured || project.cardImage) && <ProjectVisual project={project} mode="card" />}
   <div class="project-card-content">
     <div class="project-card-top">
       <span class="project-number">{number}</span>
@@ -22,7 +29,7 @@ const number = String(index + 1).padStart(2, '0');
       <p class="eyebrow">{project.category}</p>
       <h3><a href={`/work/${project.slug}`}>{project.name}<span aria-hidden="true"> ↗</span></a></h3>
       <p class="project-summary">{project.summary}</p>
-      {project.featured && (
+      {project.slug === 'tracemark' && (
         <dl class="project-facts">
           <div><dt>Challenge</dt><dd>{project.problemSummary}</dd></div>
           <div><dt>My focus</dt><dd>{project.contributionSummary}</dd></div>
