@@ -1,0 +1,97 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  mode?: 'card' | 'case';
+}
+
+const { project, mode = 'case' } = Astro.props;
+const cardImage = mode === 'card' ? project.cardImage : undefined;
+const images = mode === 'case' ? project.visualImages : undefined;
+---
+
+<figure
+  class:list={[
+    'project-visual',
+    `project-visual-${project.visual}`,
+    mode === 'card' && 'project-visual-card',
+  ]}
+  aria-label={`${project.name} project visual`}
+>
+  {cardImage && (
+    <div class="project-card-cover">
+      <img
+        src={cardImage.src}
+        alt={cardImage.alt}
+        width={cardImage.width}
+        height={cardImage.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  )}
+
+  {images && images.length > 0 && (
+    <div class="project-visual-gallery" aria-label={`${project.name} product images`}>
+      {images.map((image) => (
+        <div class="project-visual-image">
+          <img
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            decoding="async"
+          />
+          {image.caption && <p>{image.caption}</p>}
+        </div>
+      ))}
+    </div>
+  )}
+
+  {project.visual === 'architecture' && mode === 'case' && (
+    <>
+      <div class="project-visual-label">
+        <span>LOCAL INDEXING</span>
+        <span>RUST · TREE-SITTER · SQLITE</span>
+      </div>
+      <ol class="architecture-flow" aria-label="Tracemark project flow">
+        <li>
+          <span class="architecture-step">01</span>
+          <strong>Source tree</strong>
+          <span>Source files</span>
+        </li>
+        <li>
+          <span class="architecture-step">02</span>
+          <strong>Rust parser</strong>
+          <span>Tree-sitter</span>
+        </li>
+        <li>
+          <span class="architecture-step">03</span>
+          <strong>SQLite index</strong>
+          <span>Local database</span>
+        </li>
+        <li>
+          <span class="architecture-step">04</span>
+          <strong>Explore</strong>
+          <span>CLI · desktop · GitHub · MCP</span>
+        </li>
+      </ol>
+    </>
+  )}
+
+  {mode === 'case' && project.visual === 'workflow' && project.workflow && (
+    <ol class="workflow-flow" aria-label={`${project.name} workflow`}>
+      {project.workflow.map((step, index) => (
+        <li>
+          <span class="architecture-step">{String(index + 1).padStart(2, '0')}</span>
+          <strong>{step.title}</strong>
+          <span>{step.detail}</span>
+        </li>
+      ))}
+    </ol>
+  )}
+
+  <figcaption>{project.visualCaption}</figcaption>
+</figure>

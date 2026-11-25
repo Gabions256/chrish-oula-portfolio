@@ -1,0 +1,221 @@
+---
+import ProjectCard from '../components/ProjectCard.astro';
+import SiteLayout from '../components/SiteLayout.astro';
+import { engineeringEvidence, projects } from '../data/projects';
+
+const featuredProjects = projects.filter((project) => project.featured);
+const otherProjects = projects.filter((project) => !project.featured);
+const flagshipProject = featuredProjects.find((project) => project.slug === 'tracemark');
+const releasedProjects = featuredProjects.filter((project) => project.slug !== 'tracemark');
+const description =
+  'Chrish Oula is a Software Engineer in Kampala, Uganda, building mobile and web products, business software, and open-source developer tools.';
+const toolkits = [
+  { title: 'Languages', items: ['Rust', 'Dart', 'TypeScript', 'JavaScript', 'SQL'], icon: 'code' },
+  { title: 'Web & mobile', items: ['React', 'Flutter', 'Vite'], icon: 'devices' },
+  {
+    title: 'Backend & data',
+    items: ['Supabase', 'PostgreSQL', 'Neon', 'REST APIs'],
+    icon: 'database',
+  },
+  {
+    title: 'Engineering workflow',
+    items: ['Git', 'GitHub', 'CI/CD', 'Automated testing', 'Debugging', 'MCP'],
+    icon: 'branch',
+  },
+  { title: 'Deployment', items: ['Vercel', 'Cloudflare'], icon: 'cloud' },
+];
+---
+
+<SiteLayout
+  title="Chrish Oula — Software Engineer"
+  description={description}
+>
+  <main id="main">
+    <section class="hero page-shell" id="top" aria-labelledby="hero-title" data-motion>
+      <div class="hero-copy">
+        <p class="eyebrow hero-location">Software Engineer <span aria-hidden="true">·</span> Kampala, Uganda</p>
+        <h1 id="hero-title">Chrish Oula<span class="hero-role">Software Engineer</span></h1>
+        <p class="hero-intro">
+          I build reliable full-stack applications, mobile experiences, and open-source developer
+          tools.
+        </p>
+        <p class="hero-manifesto">I engineer software that solves <em>real-world</em> problems.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">Explore my work <span aria-hidden="true">↘</span></a>
+          <a class="button button-secondary" href="/Oula-Chrish-CV.pdf" download>
+            Download CV <span aria-hidden="true">↓</span>
+          </a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/Gabions256"
+            target="_blank"
+            rel="noreferrer"
+          >View GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-meta">
+          <span class="availability-inline"><span class="availability-dot" aria-hidden="true"></span>Open to international and remote opportunities</span>
+          <a href="https://www.linkedin.com/in/oula-chrish-6a538323b" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="hero-portrait">
+        <img
+          src="/chrish-oula-portrait.webp"
+          alt="Chrish Oula, Software Engineer"
+          width="1000"
+          height="1094"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <figcaption>
+          <span>CHRISH OULA</span>
+          <span>SOFTWARE ENGINEER · KAMPALA, UGANDA</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="proof-strip" aria-label="Professional focus">
+      <div class="page-shell proof-grid">
+        <p>Building at <strong>GAB Software Company Limited</strong></p>
+        <span class="proof-divider" aria-hidden="true"></span>
+        <p>Focus <strong>Full-stack · Mobile · Developer tools</strong></p>
+        <span class="proof-divider" aria-hidden="true"></span>
+        <p>Working from <strong>Kampala, Uganda</strong></p>
+      </div>
+    </section>
+
+    <section class="work-section page-shell section-space" id="work" aria-labelledby="work-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Selected engineering work <span>01 / 04</span></p>
+          <h2 id="work-title">Useful software.<br /><em>Thoughtfully engineered.</em></h2>
+        </div>
+        <p class="section-note">
+          My work spans local-first developer tools, agricultural software, and practical finance products.
+        </p>
+      </div>
+      <div class="project-group" data-motion>
+        <div class="project-group-heading">
+          <p class="eyebrow">Flagship · open source</p>
+          <h3>Developer infrastructure</h3>
+          <p>Local-first code intelligence, with the interface and architecture in view.</p>
+        </div>
+        {flagshipProject && <ProjectCard project={flagshipProject} index={0} />}
+      </div>
+      <div class="project-group released-group" data-motion>
+        <div class="project-group-heading">
+          <p class="eyebrow">Released products</p>
+          <h3>Across platforms</h3>
+          <p>Released Android, web, and Windows products with verified public listings.</p>
+        </div>
+        <div class="release-grid">
+          {releasedProjects.map((project, index) => (
+            <ProjectCard project={project} index={index + 1} />
+          ))}
+        </div>
+      </div>
+      <div class="additional-projects">
+        <div>
+          <p class="eyebrow">Additional work</p>
+          <p class="additional-note">An internal test build and a separately classified prototype.</p>
+        </div>
+        <div class="additional-list">
+          {otherProjects.map((project, index) => (
+            <ProjectCard project={project} index={index + featuredProjects.length} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="evidence-section page-shell section-space" aria-labelledby="evidence-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Engineering practice <span>02 / 04</span></p>
+          <h2 id="evidence-title">Build with care.<br /><em>Ship with evidence.</em></h2>
+        </div>
+        <p class="section-note">
+          The systems behind the products: reliable releases, secure data, and tools people can use with confidence.
+        </p>
+      </div>
+      <div class="evidence-grid">
+        {engineeringEvidence.map((item, index) => (
+          <article class="evidence-card">
+            <span class="evidence-index">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <a href={item.href} target="_blank" rel="noreferrer">
+              {item.source}<span aria-hidden="true"> ↗</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="about-section section-space" id="about" aria-labelledby="about-title" data-motion>
+      <div class="page-shell about-grid">
+        <div class="about-title">
+          <p class="eyebrow">About & experience <span>03 / 04</span></p>
+          <h2 id="about-title">A little about<br /><em>how I work.</em></h2>
+        </div>
+        <div class="about-copy">
+          <p class="about-lead">
+            I’m a Software Engineer at GAB Software Company Limited, based in Kampala, Uganda. I
+            build across mobile and web products, business software, and developer tools.
+          </p>
+          <p>
+            I’m interested in thoughtful product engineering, clear architecture, and practical
+            software that helps people get useful work done.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolkit-section page-shell section-space" aria-labelledby="toolkit-title">
+      <div class="section-heading toolkit-heading">
+        <div>
+          <p class="eyebrow">Technical toolkit <span>04 / 04</span></p>
+          <h2 id="toolkit-title">Tools for the <em>whole stack.</em></h2>
+        </div>
+        <p class="section-note">Tools I use to build from the interface through to data and delivery.</p>
+      </div>
+      <div class="toolkit-grid">
+        {toolkits.map((group, index) => (
+          <div class="toolkit-card">
+            <span class="toolkit-index">{String(index + 1).padStart(2, '0')}</span>
+            <svg class="toolkit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              {group.icon === 'code' && <path d="m8 7-5 5 5 5m8-10 5 5-5 5m-2-13-4 16" />}
+              {group.icon === 'devices' && <path d="M3 5h12v10H3zM7 19h4m-2-4v4m9-8h4v8h-4z" />}
+              {group.icon === 'database' && <path d="M4 5c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Zm0 0v7c0 1.1 3.6 2 8 2m8-9v4m-16-1c0 1.1 3.6 2 8 2m3 2-2 2 2 2m5-4-2 2 2 2" />}
+              {group.icon === 'branch' && <path d="M6 4v11m0-7h8a4 4 0 0 1 4 4v8m-12-5a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-14a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm12 13a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />}
+              {group.icon === 'cloud' && <path d="M7 18h10a4 4 0 0 0 .4-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Zm5-8v8m-3-3 3 3 3-3" />}
+            </svg>
+            <h3>{group.title}</h3>
+            <ul aria-label={`${group.title} technologies`}>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="page-shell contact-inner">
+        <p class="eyebrow">Recruiter and project enquiries</p>
+        <h2 id="contact-title">Let’s talk about<br /><em>thoughtful software.</em></h2>
+        <p>
+          Software Engineer based in Kampala, Uganda. Open to international and remote opportunities
+          across full-stack, mobile, and developer-tool engineering.
+        </p>
+        <div class="contact-actions">
+          <a class="button button-primary" href="mailto:oulachris28@gmail.com">
+            Email me <span aria-hidden="true">↗</span>
+          </a>
+          <a class="button button-primary" href="https://www.linkedin.com/in/oula-chrish-6a538323b" target="_blank" rel="noreferrer">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="https://github.com/Gabions256" target="_blank" rel="noreferrer">View GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="/Oula-Chrish-CV.pdf" download>
+            Download CV <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</SiteLayout>
