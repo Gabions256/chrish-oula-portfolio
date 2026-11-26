@@ -41,35 +41,33 @@ const toolkits = [
         </p>
         <p class="hero-manifesto">I engineer software that solves <em>real-world</em> problems.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#work">Explore my work <span aria-hidden="true">↘</span></a>
+          <a class="button button-primary" href="#work">Explore my work <span class="direction-arrow" aria-hidden="true">↘</span></a>
           <a class="button button-secondary" href="/Oula-Chrish-CV.pdf" download>
-            Download CV <span aria-hidden="true">↓</span>
+            Download CV <span class="direction-arrow" aria-hidden="true">↓</span>
           </a>
           <a
             class="button button-secondary"
             href="https://github.com/Gabions256"
             target="_blank"
             rel="noreferrer"
-          >View GitHub <span aria-hidden="true">↗</span></a>
+          >View GitHub <span class="direction-arrow" aria-hidden="true">↗</span></a>
         </div>
         <div class="hero-meta">
           <span class="availability-inline"><span class="availability-dot" aria-hidden="true"></span>Open to international and remote opportunities</span>
-          <a href="https://www.linkedin.com/in/oula-chrish-6a538323b" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="https://www.linkedin.com/in/oula-chrish-6a538323b" target="_blank" rel="noreferrer">LinkedIn <span class="direction-arrow" aria-hidden="true">↗</span></a>
         </div>
       </div>
       <figure class="hero-portrait">
         <img
-          src="/chrish-oula-portrait.webp"
+          src="/chrish-oula-portrait-cutout.webp"
+          srcset="/chrish-oula-portrait-cutout-384.webp 384w, /chrish-oula-portrait-cutout-640.webp 640w, /chrish-oula-portrait-cutout.webp 904w"
+          sizes="(max-width: 480px) 310px, (max-width: 760px) 360px, (max-width: 1050px) 40vw, 460px"
           alt="Chrish Oula, Software Engineer"
-          width="1000"
-          height="1094"
+          width="904"
+          height="1052"
           fetchpriority="high"
           decoding="async"
         />
-        <figcaption>
-          <span>CHRISH OULA</span>
-          <span>SOFTWARE ENGINEER · KAMPALA, UGANDA</span>
-        </figcaption>
       </figure>
     </section>
 
@@ -143,7 +141,7 @@ const toolkits = [
             <h3>{item.title}</h3>
             <p>{item.description}</p>
             <a href={item.href} target="_blank" rel="noreferrer">
-              {item.source}<span aria-hidden="true"> ↗</span>
+              {item.source}<span class="direction-arrow" aria-hidden="true"> ↗</span>
             </a>
           </article>
         ))}
@@ -207,12 +205,12 @@ const toolkits = [
         </p>
         <div class="contact-actions">
           <a class="button button-primary" href="mailto:oulachris28@gmail.com">
-            Email me <span aria-hidden="true">↗</span>
+            Email me <span class="direction-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="button button-primary" href="https://www.linkedin.com/in/oula-chrish-6a538323b" target="_blank" rel="noreferrer">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
-          <a class="button button-secondary" href="https://github.com/Gabions256" target="_blank" rel="noreferrer">View GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="https://www.linkedin.com/in/oula-chrish-6a538323b" target="_blank" rel="noreferrer">Connect on LinkedIn <span class="direction-arrow" aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="https://github.com/Gabions256" target="_blank" rel="noreferrer">View GitHub <span class="direction-arrow" aria-hidden="true">↗</span></a>
           <a class="button button-secondary" href="/Oula-Chrish-CV.pdf" download>
-            Download CV <span aria-hidden="true">↓</span>
+            Download CV <span class="direction-arrow" aria-hidden="true">↓</span>
           </a>
         </div>
       </div>

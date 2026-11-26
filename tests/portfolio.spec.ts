@@ -47,9 +47,16 @@ test('portrait and recruiter contact links load', async ({ page }) => {
   const portrait = page.locator('.hero-portrait img');
   await expect(portrait).toHaveAttribute('alt', 'Chrish Oula, Software Engineer');
   await expect(portrait).toBeVisible();
-  expect(
-    await portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth),
-  ).toBeGreaterThan(0);
+  await expect(page.locator('.hero-portrait figcaption')).toHaveCount(0);
+  const alpha = await portrait.evaluate(async (image: HTMLImageElement) => {
+    await image.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 32;
+    const context = canvas.getContext('2d')!;
+    context.drawImage(image, 0, 0, 32, 32);
+    return [context.getImageData(0, 0, 1, 1).data[3], context.getImageData(16, 12, 1, 1).data[3]];
+  });
+  expect(alpha).toEqual([0, 255]);
 
   await expect(page.locator('#contact').getByRole('link', { name: /Connect on LinkedIn/ }))
     .toHaveAttribute('href', 'https://www.linkedin.com/in/oula-chrish-6a538323b');
@@ -80,7 +87,9 @@ test('CV download serves the supplied PDF on desktop and mobile', async ({ page,
 
 test('featured project cards navigate to their case studies', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Read case study', exact: true }).first().click();
+  const caseStudyLinks = page.getByRole('link', { name: /^Read case study: / });
+  await expect(caseStudyLinks).toHaveCount(caseStudyRoutes.length);
+  await page.getByRole('link', { name: 'Read case study: Tracemark', exact: true }).click();
   await expect(page).toHaveURL(/\/work\/tracemark$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Tracemark');
 });
@@ -153,6 +162,21 @@ test('project stories use authentic visuals and contain no editorial placeholder
   }
 });
 
+test('case-study images keep their intrinsic proportions on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/work/tracemark');
+  const images = page.locator('.project-visual-gallery img');
+  for (const image of await images.all()) {
+    await image.scrollIntoViewIfNeeded();
+    const ratio = await image.evaluate(async (element: HTMLImageElement) => {
+      await element.decode();
+      const box = element.getBoundingClientRect();
+      return { displayed: box.width / box.height, source: element.naturalWidth / element.naturalHeight };
+    });
+    expect(ratio.displayed).toBeCloseTo(ratio.source, 2);
+  }
+});
+
 test('unconfirmed product contribution and technology claims are omitted', async ({ page }) => {
   for (const route of [
     '/work/poultrix-hub',
@@ -200,8 +224,10 @@ test('reduced-motion preference disables smooth scrolling and transitions', asyn
     scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
     transitionDuration: getComputedStyle(document.querySelector('.button')!).transitionDuration,
     animationDuration: getComputedStyle(document.querySelector('.hero-copy')!).animationDuration,
+    portraitAnimationDelay: getComputedStyle(document.querySelector('.hero-portrait')!).animationDelay,
   }));
   expect(styles.scrollBehavior).toBe('auto');
+  expect(styles.portraitAnimationDelay).toBe('0s');
   const duration = styles.transitionDuration.split(',')[0].trim();
   const seconds = duration.endsWith('ms')
     ? Number.parseFloat(duration) / 1000
@@ -318,9 +344,9 @@ test('case studies have no horizontal overflow at required widths', async ({ pag
   }
 });
 
-test('all pages pass automated accessibility checks in both themes', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (const route of ['/', ...caseStudyRoutes]) {
+for (const route of ['/', ...caseStudyRoutes]) {
+  test(`automated accessibility checks in both themes on ${route}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(route);
     for (const theme of ['light', 'dark']) {
       const currentTheme = await page.locator('html').getAttribute('data-theme');
@@ -338,5 +364,5 @@ test('all pages pass automated accessibility checks in both themes', async ({ pa
         `accessibility violations on ${route} in ${theme} theme`,
       ).toEqual([]);
     }
-  }
-});
+  });
+}
